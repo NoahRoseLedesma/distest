@@ -39,12 +39,30 @@ async def wait_for_message(self):
     """
     try:
         result = await self.client.wait_for(
-            "message", timeout=self.client.timeout, check=self._checkMessage
+            "message", timeout=self.client.timeout, check=self._check_message
         )
     except _base.TimeoutError:
         raise NoResponseError
     else:
         return result
+
+
+async def wait_for_message_in_channel(self, content,  channel_id):
+    """ Send a message with ``content`` and returns the next message that the targeted bot sends. Used in many other
+    tests.
+
+    :param str content: The text of the trigger message.
+    :param int channel_id: The id of the channel that the message is sent in.
+    :returns: The message we've been waiting for.
+    :rtype: discord.Message
+    :raises: NoResponseError
+    """
+    def check_for_message_in_channel(message):
+        return message.channel.id == channel_id and message.content == content
+
+    return await self.wait_for_event(
+        "message", check=check_for_message_in_channel, timeout=30
+    )
 
 
 async def wait_for_reply(self, content):

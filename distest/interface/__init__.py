@@ -61,7 +61,7 @@ class TestInterface:
         self.voice_channel = None
 
     # Imported Methods
-    from ._helpers import send_message, _checkMessage, edit_message
+    from ._helpers import send_message, _check_message, edit_message
     from ._voice import connect, disconnect
     from ._oddballs import ask_human, ensure_silence
     from ._reaction import assert_reaction_equals
@@ -85,6 +85,7 @@ class TestInterface:
         wait_for_reaction,
         wait_for_reply,
         wait_for_event,
+        wait_for_message_in_channel,
     )
     from ._guild_channel import (
         assert_guild_channel_created,
